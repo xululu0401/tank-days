@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1200" viewBox="0 0 1200 1200">
+  <rect width="1200" height="1200" fill="#e9f1f3"/>
+  <rect x="48" y="48" width="1104" height="1104" fill="#ffffff" stroke="#d7e4e8"/>
+  <rect x="48" y="48" width="1104" height="16" fill="#12707f"/>
+  <text x="104" y="182" font-family="-apple-system,'PingFang SC','Microsoft YaHei',sans-serif" font-size="60" font-weight="700" fill="#12333f">这缸水还能撑几天</text>
+  <text x="104" y="244" font-family="-apple-system,'PingFang SC','Microsoft YaHei',sans-serif" font-size="29" fill="#6b8590">鱼缸硝酸盐的累积速度 · 换水节奏的稳态 · 四条反解路</text>
+  <line x1="104" y1="292" x2="1096" y2="292" stroke="#d7e4e8" stroke-dasharray="8 8"/>
+  <text x="104" y="382" font-family="-apple-system,'PingFang SC','Microsoft YaHei',sans-serif" font-size="30" fill="#425c66">不换水还能撑</text>
+  <text x="104" y="512" font-family="ui-monospace,Menlo,Consolas,monospace" font-size="126" font-weight="700" fill="#a9631a">6.4 天</text>
+  <text x="104" y="606" font-family="-apple-system,'PingFang SC','Microsoft YaHei',sans-serif" font-size="30" fill="#425c66">现在这个节奏，换水前会稳在</text>
+  <text x="104" y="736" font-family="ui-monospace,Menlo,Consolas,monospace" font-size="126" font-weight="700" fill="#b3261e">47.7 mg/L</text>
+  <text x="104" y="820" font-family="-apple-system,'PingFang SC','Microsoft YaHei',sans-serif" font-size="28" fill="#425c66">是你定的上限 25 的 1.91 倍 · 建议每次换 29.8 L</text>
+  <text x="104" y="864" font-family="-apple-system,'PingFang SC','Microsoft YaHei',sans-serif" font-size="28" fill="#425c66">临界比例 57.2% → 建议 62.9%（留 10% 余量）</text>
+  <line x1="104" y1="908" x2="1096" y2="908" stroke="#eef4f6"/>
+  <text x="104" y="968" font-family="-apple-system,'PingFang SC','Microsoft YaHei',sans-serif" font-size="27" fill="#6b8590">实际水量 47.4 L</text>
+  <text x="1096" y="968" text-anchor="end" font-family="-apple-system,'PingFang SC','Microsoft YaHei',sans-serif" font-size="27" fill="#6b8590">标称 63 L</text>
+  <text x="104" y="1014" font-family="-apple-system,'PingFang SC','Microsoft YaHei',sans-serif" font-size="27" fill="#6b8590">鱼重 40 g / 饲料 0.8 g 天</text>
+  <text x="1096" y="1014" text-anchor="end" font-family="-apple-system,'PingFang SC','Microsoft YaHei',sans-serif" font-size="27" fill="#6b8590">净负荷 96.8 mg/天</text>
+  <text x="104" y="1060" font-family="-apple-system,'PingFang SC','Microsoft YaHei',sans-serif" font-size="27" fill="#6b8590">每天涨 2.04 mg/L</text>
+  <text x="1096" y="1060" text-anchor="end" font-family="-apple-system,'PingFang SC','Microsoft YaHei',sans-serif" font-size="27" fill="#6b8590">上限 25 mg/L</text>
+  <text x="104" y="1108" font-family="-apple-system,'PingFang SC','Microsoft YaHei',sans-serif" font-size="23" fill="#6b8590">只算硝酸盐的累积与换水节奏，不做鱼病与能不能养的判断 · 默认场景为虚构示例</text>
+</svg>

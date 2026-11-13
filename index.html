@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>这缸水还能撑几天 · 鱼缸硝酸盐与换水节奏</title>
+<meta name="description" content="按缸的尺寸、鱼重和投喂量算出硝酸盐每天涨多少、不换水还能撑几天、现在的换水节奏会稳在多少，并给出多换水/少喂/加水草/换大缸四条路。">
+<style>
+  :root{
+    --bg:#eef4f6; --card:#ffffff; --ink:#12333f; --ink2:#425c66; --mut:#6b8590;
+    --line:#d7e4e8; --teal:#12707f; --teal2:#e2f1f2; --amber:#a9631a; --amber2:#fdf3e4;
+    --red:#b3261e; --red2:#fdecea; --green:#1c6b4b; --green2:#e6f4ec;
+    --sh:0 1px 2px rgba(18,51,63,.06),0 6px 18px rgba(18,51,63,.06);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--bg); color:var(--ink);
+    font:16px/1.6 -apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:22px 16px 72px}
+  header.top{margin-bottom:18px}
+  h1{font-size:30px;line-height:1.25;margin:0 0 6px;letter-spacing:.2px}
+  .sub{color:var(--ink2);font-size:15.5px;margin:0}
+  .sub b{color:var(--teal)}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin:16px 0;box-shadow:var(--sh)}
+  h2{font-size:18px;margin:0 0 12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  h2 .tag{font-size:12px;font-weight:600;color:var(--teal);background:var(--teal2);border-radius:999px;padding:2px 9px}
+  h3{font-size:15px;margin:18px 0 8px;color:var(--ink2)}
+  .hide{display:none !important}
+  .muted{color:var(--mut);font-size:13.5px}
+  .num{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-variant-numeric:tabular-nums}
+
+  /* 封面带 */
+  .hero{background:linear-gradient(180deg,#0f5f6c,#12707f);color:#eafafb;border:none}
+  .hero h2{color:#fff;margin-bottom:6px}
+  .hero .muted{color:#bfe6ea}
+  .hl{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:10px}
+  .hl>div{background:rgba(255,255,255,.11);border:1px solid rgba(255,255,255,.18);border-radius:11px;padding:11px 13px;min-width:0}
+  .hl .lb{font-size:13px;color:#c9ecef}
+  .hl .v{font-size:27px;font-weight:700;line-height:1.2;margin:3px 0 2px;font-family:ui-monospace,Menlo,monospace;word-break:break-word}
+  .hl .nt{font-size:12.5px;color:#bfe6ea}
+  .pill{display:inline-block;font-size:12px;font-weight:600;border-radius:999px;padding:1px 8px;margin-left:6px;vertical-align:middle}
+  .pill.ok{background:#d6f5e6;color:#12603f}
+  .pill.bad{background:#ffe0dd;color:#8d1f18}
+
+  /* 沙盘 */
+  .sandbox{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:16px;align-items:start}
+  svg{display:block;width:100%;height:auto;max-width:100%}
+  .legend{font-size:14px}
+  .legend table{width:100%;border-collapse:collapse}
+  .legend td{padding:4px 2px;border-bottom:1px solid var(--line);vertical-align:top}
+  .legend td:last-child{text-align:right;white-space:nowrap;font-family:ui-monospace,Menlo,monospace}
+  /* 出错时那一行是 colspan=2 的整句说明：它是 last-child，会吃到上面的 nowrap，
+     把整页顶到 900px 以上（375px 实测 docScrollW=910）。所以这一行必须允许换行。 */
+  .legend td.wrapcell{white-space:normal;text-align:left;overflow-wrap:anywhere}
+  .legend tr.sum td{font-weight:700;border-bottom:none;padding-top:7px}
+  .swatch{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+
+  /* 输入 */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(210px,100%),1fr));gap:12px}
+  .grid.wide{grid-template-columns:repeat(auto-fill,minmax(min(250px,100%),1fr))}
+  .f{min-width:0}
+  .f label{display:block;font-size:13.5px;color:var(--ink2);margin-bottom:4px}
+  .f label i{font-style:normal;color:var(--mut);font-size:12.5px;margin-left:4px}
+  .f input{width:100%;font:15px/1.4 ui-monospace,Menlo,monospace;padding:9px 10px;border:1px solid var(--line);
+    border-radius:9px;background:#fbfdfe;color:var(--ink)}
+  .f input:focus{outline:2px solid #9fd3d9;outline-offset:1px;border-color:#7cc2ca}
+  .f.bad input{border-color:#d9534f;background:#fff7f6}
+  .f .msg{display:none;font-size:12.5px;color:var(--red);margin-top:4px}
+  .f.bad .msg{display:block}
+  .ro input{background:#eef3f5;color:var(--ink2)}
+  .grp{margin-bottom:6px}
+  .grp>h3{margin-top:14px}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:6px}
+  button{font:inherit;cursor:pointer}
+  .chip{background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 13px;font-size:13.5px;color:var(--ink2)}
+  .chip:hover{border-color:#8fc7cf;color:var(--teal)}
+  .chip[aria-pressed="true"]{background:var(--teal);border-color:var(--teal);color:#fff}
+  .btn{background:var(--teal);border:1px solid var(--teal);color:#fff;border-radius:9px;padding:9px 15px;font-size:14px}
+  .btn.ghost{background:#fff;color:var(--teal)}
+  .btn:disabled{opacity:.45;cursor:not-allowed}
+  .btn.mini{padding:5px 10px;font-size:13px;border-radius:8px}
+
+  /* 鱼的行 */
+  .fishrow{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,.8fr) minmax(0,.8fr) auto;gap:8px;align-items:end;margin-bottom:8px}
+  .fishrow .f{margin:0}
+  .fishrow .btn{height:38px}
+
+  /* 结论 */
+  .concl{border-left:4px solid var(--teal)}
+  .big{font-size:38px;font-weight:800;line-height:1.15;font-family:ui-monospace,Menlo,monospace;word-break:break-word}
+  .verdict{font-size:16.5px;margin-top:2px}
+  ul.tight{margin:6px 0 0;padding-left:20px}
+  ul.tight li{margin:3px 0}
+  .ev{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(240px,100%),1fr));gap:10px;margin-top:6px}
+  .ev>div{background:#f7fbfc;border:1px solid var(--line);border-radius:10px;padding:9px 12px;font-size:14px;min-width:0}
+  .ev .k{color:var(--mut);font-size:12.5px}
+  .ev .v{font-family:ui-monospace,Menlo,monospace;font-size:16.5px;font-weight:700;overflow-wrap:anywhere}
+  .levers{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(258px,100%),1fr));gap:10px;margin-top:8px}
+  .lever{border:1px solid var(--line);border-radius:11px;padding:11px 12px;background:#fff;min-width:0}
+  .lever.no{background:#f7f9fa}
+  .lever .t{font-weight:600;font-size:14.5px}
+  .lever .d{font-size:13px;color:var(--ink2);margin:4px 0 8px;overflow-wrap:anywhere}
+  .lever .d b{font-family:ui-monospace,Menlo,monospace;color:var(--amber)}
+  .bar{background:var(--red2);border:1px solid #f3c9c5;color:#7d1a14;border-radius:11px;padding:11px 13px;margin:12px 0;font-size:14.5px}
+  .bar.warn{background:var(--amber2);border-color:#f0dcbd;color:#7a4a11}
+  .bar.ok{background:var(--green2);border-color:#c6e6d5;color:#14563c}
+  .bar ul{margin:6px 0 0;padding-left:20px}
+
+  /* 表 */
+  .tblwrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--line);border-radius:11px}
+  table.tbl{border-collapse:collapse;width:100%;font-size:14px;min-width:430px}
+  table.tbl th,table.tbl td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+  table.tbl th:first-child,table.tbl td:first-child{text-align:left}
+  table.tbl th{background:#f4f9fa;color:var(--ink2);font-weight:600;font-size:13px}
+  table.tbl tr.over td{background:#fdf1f0}
+  table.tbl tr.over td:nth-child(4){color:var(--red);font-weight:700}
+  table.tbl tr:last-child td{border-bottom:none}
+  /* min(320px,100%)：minmax(320px,1fr) 在 320px 视口下不会收缩，会把整页顶宽（实测 320px 时整页 350px）。 */
+  .two{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr));gap:16px}
+
+  /* 自检 */
+  .checks{font-size:13.5px;margin:0;padding:0;list-style:none}
+  .checks li{padding:4px 0;border-bottom:1px dashed var(--line);display:flex;gap:8px;flex-wrap:wrap}
+  .checks li>*{min-width:0}
+  .checks li:last-child{border-bottom:none}
+  .checks .st{flex:0 0 auto;font-weight:700}
+  .checks .st.p{color:var(--green)}
+  .checks .st.f{color:var(--red)}
+  .checks .dt{color:var(--mut);font-family:ui-monospace,Menlo,monospace;font-size:12.5px;overflow-wrap:anywhere}
+  footer.foot{margin-top:26px;color:var(--mut);font-size:13px}
+  footer.foot p{margin:6px 0}
+  .prov{font-size:12.5px;color:var(--mut);margin-top:8px;word-break:break-word}
+  .dl{display:flex;flex-wrap:wrap;gap:9px;align-items:center}
+  .tagline{font-size:13px;color:var(--green);margin-left:2px}
+
+  @media (max-width:820px){
+    .sandbox{grid-template-columns:minmax(0,1fr)}
+    .hl{grid-template-columns:minmax(0,1fr)}
+    h1{font-size:25px}
+    .big{font-size:31px}
+    .wrap{padding:16px 12px 64px}
+    .card{padding:14px 14px}
+  }
+  @media (max-width:400px){
+    .fishrow{grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-auto-rows:auto}
+    .fishrow .f:nth-child(1){grid-column:1 / -1}
+    .f input{font-size:16px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <h1>这缸水还能撑几天</h1>
+  <p class="sub">按你缸的<b>真实尺寸</b>和<b>喂食量</b>算出硝酸盐每天涨多少、<b>不换水还能撑几天</b>、现在的换水节奏最后会稳在多少 —— 再给出「多换水 / 少喂 / 加水草 / 换大缸」四条能直接改的路。</p>
+</header>
+
+<section class="card hero">
+  <h2>先看这三行 <span class="tag">结论</span></h2>
+  <div class="hl">
+    <div>
+      <div class="lb">不换水还能撑</div>
+      <div class="v" id="hlDays">—</div>
+      <div class="nt" id="hlDaysSub">&nbsp;</div>
+    </div>
+    <div>
+      <div class="lb">你现在的节奏，换水前会稳在</div>
+      <div class="v" id="hlPeak">—</div>
+      <div class="nt" id="hlPeakSub">&nbsp;</div>
+    </div>
+    <div>
+      <div class="lb">每次该换多少水</div>
+      <div class="v" id="hlChange">—</div>
+      <div class="nt" id="hlChangeSub">&nbsp;</div>
+    </div>
+  </div>
+</section>
+
+<div id="errBar" class="bar hide"><b>这几格填得不对，先改一下（改完自动重算）：</b><ul id="errList"></ul></div>
+<div id="warnBar" class="bar warn hide"><b>提示（不影响计算）：</b><ul id="warnList"></ul></div>
+
+<section class="card">
+  <h2>把缸画出来 <span class="tag">按内径比例画，侧视示意</span></h2>
+  <div class="sandbox">
+    <div><svg id="tankSvg" viewBox="0 0 660 340" role="img" aria-label="鱼缸剖面示意：标出底砂、水面留空、造景与真实水量"></svg></div>
+    <div class="legend">
+      <table>
+        <tbody id="volRows"></tbody>
+      </table>
+      <p class="muted" id="sandboxNote" style="margin:10px 0 0"></p>
+    </div>
+  </div>
+</section>
+
+<section class="card">
+  <h2>填你缸里的情况 <span class="tag">默认是一缸虚构的示例</span></h2>
+  <div class="chips" id="presetBar"></div>
+
+  <div class="grp grp">
+    <h3>① 缸的尺寸（量内径，不是外径）</h3>
+    <div class="grid" id="g-tank"></div>
+  </div>
+  <div class="grp">
+    <h3>② 缸里被占掉的部分</h3>
+    <div class="grid" id="g-fill"></div>
+  </div>
+  <div class="grp">
+    <h3>③ 缸里有什么鱼、喂多少</h3>
+    <div id="fishRows"></div>
+    <div class="chips"><button type="button" class="btn ghost mini" id="btnAddFish">+ 加一行鱼</button></div>
+    <div class="grid" id="g-feed" style="margin-top:12px"></div>
+  </div>
+  <div class="grp">
+    <h3>④ 饲料与水的日常</h3>
+    <div class="grid" id="g-load"></div>
+  </div>
+  <div class="grp">
+    <h3>⑤ 读数与你的上限</h3>
+    <div class="grid" id="g-target"></div>
+  </div>
+  <div class="grp">
+    <h3>⑥ 换水节奏</h3>
+    <div class="grid" id="g-change"></div>
+  </div>
+</section>
+
+<section class="card concl">
+  <h2>这次算出来的结论 <span class="tag">主结论</span></h2>
+  <div class="big" id="conclBig">—</div>
+  <div class="verdict" id="conclVerdict"></div>
+  <h3>关键证据（每个数都能对回上面那些输入）</h3>
+  <div class="ev" id="evidence"></div>
+  <h3>可以改哪一格（点了会写回输入框并重算）</h3>
+  <div class="levers" id="levers"></div>
+  <h3 id="schedHead">排班表：往后 8 周，每周换水前会读到多少</h3>
+  <div class="two" id="schedWrap">
+    <div>
+      <p class="muted" id="schedNowTitle" style="margin:0 0 6px"></p>
+      <div class="tblwrap" id="schedNowWrap"><table class="tbl" id="schedNow"><thead><tr><th>周次</th><th>期初</th><th>换水前</th><th>越线</th><th>换水后</th></tr></thead><tbody></tbody></table></div>
+    </div>
+    <div>
+      <p class="muted" id="schedPlanTitle" style="margin:0 0 6px"></p>
+      <div class="tblwrap" id="schedPlanWrap"><table class="tbl" id="schedPlan"><thead><tr><th>周次</th><th>期初</th><th>换水前</th><th>越线</th><th>换水后</th></tr></thead><tbody></tbody></table></div>
+    </div>
+  </div>
+  <h3>本页不做的事（边界）</h3>
+  <div id="boundary" class="muted"></div>
+</section>
+
+<section class="card">
+  <h2>导出与保存</h2>
+  <div class="dl">
+    <button type="button" class="btn" id="dlCsv">导出 CSV（排班表）</button>
+    <button type="button" class="btn ghost" id="dlMd">导出 Markdown（小结）</button>
+    <button type="button" class="btn ghost" id="dlPng">导出结果卡 PNG</button>
+    <button type="button" class="btn ghost" id="dlJson">导出 JSON（备份）</button>
+  </div>
+  <div class="dl" style="margin-top:9px">
+    <button type="button" class="btn ghost mini" id="btnSave">保存到本机</button>
+    <button type="button" class="btn ghost mini" id="btnLoad">读回上次</button>
+    <button type="button" class="btn ghost mini" id="btnReset">恢复默认示例</button>
+    <span class="tagline" id="saveTag"></span>
+  </div>
+  <p class="prov" id="prov"></p>
+</section>
+
+<section class="card">
+  <h2>结构自检 <span class="tag">这次计算里的每个关系都当场复核一遍</span></h2>
+  <ul class="checks" id="checks"></ul>
+</section>
+
+<footer class="foot">
+  <p><b>这是一张算数纸，不是诊断书。</b>本页只算硝酸盐的累积与换水节奏：不判断能不能养、养几条合适、鱼健不健康，也不预测氨氮与亚硝酸盐峰值、不模拟开缸养水、不涉及鱼病与用药。上限是<b>你自己填的数</b>。</p>
+  <p>页面里所有假设值（蛋白含氮 16% 即 ÷6.25、氮→硝酸盐 62/14、进水系数、建议值的 10% 余量、各档「常用区间」）都是<b>本页自己的建模选择</b>，没有引用任何机构、标准或文献。默认场景与内置预设<b>全部是虚构示例</b>，不是真实鱼缸数据，也不代表任何真实分布。</p>
+  <p>AI 自行复核，未做人工校核。</p>
+</footer>
+
+</div>
+
+<script src="./core.js"></script>
+<script src="./ui.js"></script>
+</body>
+</html>
